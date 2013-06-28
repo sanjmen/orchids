@@ -1,0 +1,19 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'About', 2];
+{% endblock %}
+
+{% block head_title %}{% trans "About orcheeder.com" %}{% endblock %}
+
+{% block breadcrumb_root %}
+{% endblock %}
+
+{% block body %}
+    <div class="about">
+        <p><a href="http://orcheeder.com/">Orcheeder</a> is a social network for orchid lovers and collectors. We are just begining. Please be kind and patient. We are building a big database of genera, species and orchids.</p>
+        <p>If you have suggestions or ideas, if you want to contribute or need some help drop us a mail to <strong>we</strong> at <strong>orcheeder.com</strong>. We'll be glad to hear from you!</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% load i18n %}
+<p class="tags list">
+    {% for tag in post.tags.all %}
+        <span class="label"><a style="color: white;" href="{% url 'planet_tag_detail' tag.name %}" title="Tag">{{ tag.name }}</a></span>
+    {% endfor %}
+</p>
+<table class="blog details table table-hover table-bordered">
+    {% for author in post.authors.all %}
+    <tr>
+        <th>{% trans 'published by' %}</th><td>
+        <a href="{{ author.get_absolute_url }}" title="{% trans 'See all posts for this author' %}">
+            {{ author.name }}
+        </a></td>
+    </tr>
+    {% endfor %}
+    <tr>
+    <th>{% trans 'in blog' %}</th><td><a href="{{ post.feed.get_absolute_url }}" title="{% trans 'See all posts for this feed' %}">
+        {{ post.feed.title }}
+    </a></td>
+    </tr>
+    <tr>
+        <th>{% trans 'original entry' %}</th><td><a href="{{ post.url }}" rel="noindex,nofollow">{{ post.title|safe }}</a>
+    </tr>
+</table>

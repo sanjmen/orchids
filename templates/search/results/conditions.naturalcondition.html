@@ -1,0 +1,35 @@
+{% load markup %}
+<div class="result">
+    <div class="name">
+        <h3>
+            {{ result.object.condition_type }} for {{ result.object.scientific }}
+            {% if result.object.name.rank == "gen." %}
+                <a href="{% url 'taxon.views.genus_detail' result.object.name.id result.object.name.get_slug %}" title="{{ result.object.name.get_partial }}">
+            {% else %}
+                <a href="{% url 'taxon.views.species_detail' result.object.name.id result.object.name.get_slug %}" title="{{ result.object.name.get_partial }}">
+            {% endif %}
+                  {{ result.object.name.scientific }}
+                </a>
+        </h3>
+    </div>
+    <ul class="content">
+      <li class="span2">
+        <span class="label label-success">{{ result.object.condition_type }}</span>
+      </li>
+      <li class="span10">
+        {% if result.object.text %}
+          {{ result.object.text|striptags|safe|truncatewords_html:"20"|markdown }}
+        {% endif %}
+
+        {% if result.object.name.rank == "gen." %}
+            <a href="{% url 'genus_detail' result.object.name.id result.object.name.get_slug %}#habitat" class="btn btn-success"
+                onclick="_gaq.push(['_trackEvent', 'Habitat', 'From Conditions Search', 'click']);">
+        {% else %}
+            <a href="{% url 'species_detail' result.object.name.id result.object.name.get_slug %}#habitat" class="btn btn-success"
+                onclick="_gaq.push(['_trackEvent', 'Habitat', 'From Conditions Search', 'click']);">
+        {% endif %}
+              Read More</a>
+            </a>
+      </li>
+    </ul>
+</div>

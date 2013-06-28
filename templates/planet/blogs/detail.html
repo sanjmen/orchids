@@ -1,0 +1,76 @@
+{% extends "planet/base.html" %}
+{% load i18n pagination_tags planet_tags %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Blog Detail', 2];
+{% endblock %}
+
+{% block head_title %}{% trans "Blog" %}: {{ blog.title }}{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{% trans 'Blog' %}: {{ blog.title }} - {% trans 'Posts in' %} {{ site.name }}" />
+    <meta name="description" content="{% trans 'Blog' %} {{ blog.title }} - {% trans 'Posts in' %} {{ site.name }}" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="http://{{ site.domain }}{{ blog.get_absolute_url }}"/>
+{% endblock %}
+
+{% block breadcrumb_section %}
+    <span class="divider">/</span>
+    <li><a href="{% url 'planet.views.blogs_list' %}">Blogs</a> <span class="divider">/</span></li>
+{% endblock %}
+{% block breadcrumb_detail %}
+    <li class="active">{{ blog.title }}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Blog" %}: {{ blog.title }}</h1>
+    <table class="blog details table table-hover table-bordered">
+        <tr>
+            <th>{% trans 'web' %}</th><td><a href="{{ blog.url }}" title="{% trans 'Go to the original blog' %}" rel="noindex,nofollow">{{ blog.url }}</a></td>
+        </tr>
+        {% for feed in blog.feed_set.all %}
+        <tr>
+            <th>{% trans 'feed' %}</th><td><a href="{{ feed.get_absolute_url }}" class="feed" title="{% trans 'See the full list of post from this feed' %}">{{ feed.title }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if tag %}
+        <h2>{% trans 'Posts under tag' %}: <strong>{{ tag }}</strong></h2>
+    {% endif %}
+
+    {% autopaginate posts 20 %}
+    {% for post in posts %}
+
+        {% if forloop.counter|divisibleby:"6" %}
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* Post_1 */
+                google_ad_slot = "7502754789";
+                google_ad_width = 728;
+                google_ad_height = 15;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        {% endif %}
+
+        <div class="result {% cycle 'even' 'odd' %} clearfix">
+            {% post_details post %}
+        </div>
+    {% endfor %}
+
+    {% if tag %}
+        <p>
+            <a href="{% url 'planet_tag_feed_list' tag.name %}" title="{% trans 'See the list of blogs talking about this tag' %}">
+                {% trans 'Other blogs talking about ' %} {{ tag }}
+            </a>
+        </p>
+    {% endif %}
+
+    {% paginate %}
+{% endblock %}
+
+{% block tag_cloud %}
+    {% cloud_for_blog blog %}
+{% endblock %}

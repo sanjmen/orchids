@@ -1,0 +1,37 @@
+{% extends "planet/base.html" %}
+{% load i18n pagination_tags planet_tags %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Author List', 2];
+{% endblock %}
+
+{% block head_title %}{% trans 'Authors list' %}{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{% trans 'Authors list' %} - {{ site.name }}" />
+    <meta name="description" content="{% trans 'Authors list' %} - {{ site.name }}" />
+    <meta name="robots" content="noindex, follow" />
+{% endblock %}
+
+{% block breadcrumb_section %}
+    <span class="divider">/</span>
+    <li class="active">{% trans 'Blog Authors' %}</li>
+{% endblock %}
+
+{% block content %}
+<h1>{% trans "Authors" %}</h1>
+<ul class="author list">
+    {% autopaginate authors_list 20 %}
+    {% for author in authors_list %}
+        <li>
+            <h2>
+                <a class="nombre" href="{{ author.get_absolute_url }}" title="{% trans 'Author:' %} {{ author.name }}">
+                    {{ author.name }}
+                </a>
+            </h2>
+        </li>
+        {% feeds_for_author author %}
+    {% endfor %}
+    {% paginate %}
+</ul>
+{% endblock %}

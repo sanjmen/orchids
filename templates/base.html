@@ -1,0 +1,144 @@
+{% load staticfiles metron_tags waffle_tags %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8" />
+    <title>{% block head_title_base %}{% block head_title %}{% endblock %}{% endblock %}</title>
+    {% block viewport %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %}
+
+    {% block style_base %}
+        <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+        <link href="{% static "bootstrap/css/bootstrap-responsive.min.css" %}" rel="stylesheet">
+        <link href="{% static "css/theme.css" %}" rel="stylesheet">
+        <link href="{% static "ico/favicon.png" %}" rel="shortcut icon">
+        {% block extra_style %}{% endblock %}
+    {% endblock %}
+
+    {% block html5shim %}
+        <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+            <script src="{% static "pinax/js/html5shiv.js" %}"></script>
+        <![endif]-->
+    {% endblock %}
+    <script type="text/javascript">
+        _gaq = [];
+    </script>
+
+    {% block extra_head_base %}
+        {% block extra_head %}{% endblock %}
+    {% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}" id="{% block body_id %}{% endblock %}">
+    {% block topbar_base %}
+        <div class="navbar {% block navbar_class %} navbar-inverse {% endblock %} navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+
+                    {% block site_brand %}
+                        <a class="brand" href="{% url "home" %}">{{ SITE_NAME }}</a>
+                    {% endblock %}
+
+                    {% block topbar %}
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+
+                        <div class="nav-collapse collapse">
+                            {% block nav %}
+                                {% include "includes/_navbar.html" %}
+                            {% endblock %}
+                            {% block search %}{% endblock %}
+                            {% block account_bar %}{% include "includes/_account_bar.html" %}{% endblock %}
+
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    <div class="container-fluid" id="main-container">
+        <div class="span12">
+            {% block body_base %}
+                <div class="row-fluid" id="container">
+                {% block body %}
+                    <div class="span8" id="left-column">
+                        {% block left_column %}{% endblock %}
+                        <br/><br/>
+                        {% block disqus %}{% endblock %}
+                    </div>
+                    <div class="span4" id="right-column">
+                        {% block right_column %}
+                            <div class="row-fluid">
+                                {% block extra_right %}{% endblock %}
+
+                                {% block related_products %}
+                                    {% include "growers/includes/products_feature.html" %}
+                                {% endblock %}
+
+                                {% block latest_species %}{% endblock %}
+                                {% block tag_cloud %}{% endblock %}
+                            </div>
+                        {% endblock %}
+                    </div>
+                {% endblock %}
+                </div>
+
+                {% block breadcrumb_root %}
+                {% endblock %}
+
+                {% block footer_base %}
+                    <hr />
+                    <footer>
+                    {% block footer %}
+                        {% include "_footer.html" %}
+                    {% endblock %}
+                    </footer>
+                {% endblock %}
+            {% endblock %}
+        </div>
+    </div>
+    {% block script_base %}
+        <script src="{% block jquery_src %}{% static "pinax/js/jquery.js" %}{% endblock %}"></script>
+        <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+        <script src="{% static "js/theme.js" %}"></script>
+        {% block extra_script %}{% endblock %}
+    {% endblock %}
+
+    {% block extra_body_base %}
+        {% block extra_body %}{% endblock %}
+        {% switch switch_name %}
+        <!-- Begin Inspectlet Embed Code -->
+        <script type="text/javascript" id="inspectletjs">
+            window.__insp = window.__insp || [];
+            __insp.push(['wid', 3386897920]);
+            (function() {
+                function __ldinsp(){var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://www.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); }
+                if (window.attachEvent){
+                    window.attachEvent('onload', __ldinsp);
+                }else{
+                    window.addEventListener('load', __ldinsp, false);
+                }
+            })();
+        </script>
+        <!-- End Inspectlet Embed Code -->
+        {% endswitch %}
+        <script src="{% static "js/home.js" %}"></script>
+    {% endblock %}
+    <script type="text/javascript">
+        {% block customvars %}{% endblock %}
+        {# It saves the date of the first visit of a user (scope=1 is user level) #}
+        {# so we may see the progress in time of the users that came for first time this date. #}
+        {# This will allow us to make Cohorts Analysis in the near future #}
+        var customVar5 = ['First Visit', '{% now "Ymd" %}', 1];
+    </script>
+    {% analytics %}
+</body>
+
+</html>

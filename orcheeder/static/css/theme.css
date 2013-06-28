@@ -1,0 +1,366 @@
+body {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 0.9em;
+  padding-top: 10px;
+  position: relative;
+  color: black;
+}
+
+body .breadcrumb { margin: 0; }
+
+h1 {
+  font-size: 2.2em;
+}
+
+h2 {
+  font-size: 1.375em;
+}
+
+a {
+  color: #698d24;
+}
+
+a:hover {
+  color: #97cb34;
+  text-decoration: none;
+}
+
+.hero-unit {
+  background-color: white;
+  border: 1px solid #97cb34;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.hero-unit h1 {
+  font-size: 2.2em;
+}
+
+.left-column, .right-column {
+  border: 1px solid #a7d353;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.right-column {
+  margin-left: 10px !important;
+}
+
+#images, #name-details, #habitat, #tips, #description, #tags, #related-posts, #top-genus, #product-details {
+  margin-bottom: 30px;
+}
+
+#description, #tags, #related-posts {
+  border-bottom: 1px solid #a7d353;
+  padding: 0 10px 15px 10px;
+}
+
+.table caption {
+  background-color: #b7db72;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+tr, td {
+  border-color: #b7db72;
+}
+
+td:first-child {
+  background-color: #b7db72;
+}
+
+td:last-child {
+  min-width: 400px;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #a7d353;
+}
+
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+  color: #0c1004;
+  background-color: #97cb34;
+  border: 1px solid #a7d353;
+}
+
+.nav-tabs > li > a:hover {
+  border-color: #a7d353;
+}
+
+.nav > li > a:hover {
+  background-color: #97cb34;
+  color: #0c1004;
+}
+
+.label-important {
+  background-color: #3a4e14;
+}
+
+ul, ol {
+  list-style-image: none;
+  list-style-type: none;
+  list-style-position: outside;
+}
+
+.search-results li, form.form-search ul li {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.search-results .name a:hover {
+  color: black;
+}
+
+.search-results .link {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.search-results div.span4, .search-results li.span4, .search-results li.span3 {
+  vertical-align: top;
+  text-align: center;
+  margin-left: 5px !important;
+  padding-bottom: 5px;
+}
+
+.thumbnail {
+  border: 1px solid #a7d353;
+}
+
+.thumbnail .caption{
+  height: 40px;
+  background-color: white;
+  border-radius: 4px;
+  text-align: center;
+}
+
+#tags-cloud li {
+  display: inline-block;
+  overflow: hidden;
+}
+
+#tags h5 {
+  display: inline;
+}
+
+#tags-cloud a.level1 {
+  font-size:0.5em;
+  opacity:0.7;
+}
+#tags-cloud a.level2 {
+  font-size:0.6em;
+  opacity:0.8;
+}
+#tags-cloud a.level3 {
+  font-size:0.7em;
+  opacity:0.9;
+}
+#tags-cloud a.level4 {
+  font-size:0.8em;
+  opacity:0.95;
+}
+#tags-cloud a.level5 {
+  font-size:0.9em;
+}
+#tags-cloud a.level6 {
+  font-size:1.0em;
+}
+#tags-cloud a.level7 {
+  font-size:1.1em;
+  font-weight:bolder;
+}
+
+.breadcrumb {
+  background-color: white;
+  font-size: 0.8em;
+}
+
+.breadcrumb > .active {
+  color: #232f0c;
+}
+
+.breadcrumb > li {
+  text-shadow: none;
+}
+
+.breadcrumb > li > .divider {
+  color: #232f0c;
+}
+
+.result {
+  margin-top: 5px;
+  border: 1px solid #b7db72;
+  border-radius: 4px;
+}
+.result div.date  {
+  text-align: right;
+  background-color: #97cb34;
+  padding: 5px;
+}
+.result div.name {
+  text-align: center;
+  background-color: #97cb34;
+  padding: 5px;
+}
+.result h2, .result h1 {
+  margin-left: 10px;
+}
+.result .content {
+  padding: 10px;
+  overflow: hidden;
+}
+
+.form-actions {
+  background-color: #e7f3d0;
+}
+
+form.form-horizontal {
+  margin-left: 40px;
+}
+
+footer {
+  text-align: center;
+}
+
+.about {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+section {
+  padding-top: 60px;
+}
+.modal form {
+  margin-bottom: 0px;
+}
+#footer {
+  margin-top: 80px;
+}
+#footer p {
+  margin-bottom: 0;
+}
+#footer p.right {
+  float: right;
+}
+
+/* green navbar */
+.navbar-inverse .navbar-inner { background-color: #97CB34; background-image: linear-gradient(to bottom, #6CA300, #97CB34); border-color: #97CB34; }
+.navbar-inverse .brand { color: #FFF; }
+.navbar-inverse .brand, .navbar-inverse .nav > li > a, .navbar-inverse .nav-collapse .nav > li > a, .navbar-inverse .nav-collapse .dropdown-menu a { color: #FFF; }
+.navbar-inverse .nav li.dropdown > .dropdown-toggle .caret { border-bottom-color: #FFF; border-top-color: #FFF; }
+.navbar-inverse .navbar-text { color: #FFF; }
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle { background-color: transparent; }
+.dropdown-menu li > a:hover,
+.dropdown-menu li > a:focus,
+.dropdown-submenu:hover > a {
+  color: #FFF;
+  text-decoration: none;
+  background-color: #97CB34;
+  background-image: -moz-linear-gradient(top, #6CA300, #97CB34);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6CA300), to(#97CB34));
+  background-image: -webkit-linear-gradient(top, #6CA300, #97CB34);
+  background-image: -o-linear-gradient(top, #6CA300, #97CB34);
+  background-image: linear-gradient(to bottom, #6CA300, #97CB34);
+}
+
+.navbar-inner .container-fluid { width: 90%; margin: 0 auto; }
+
+div.navbar.navbar-fixed-top { position: fixed; }
+
+#main-container { margin-top: 40px; }
+
+.modal-header .close {
+  margin-top: -6px;
+}
+
+.modal-body {
+  max-height: 500px;
+}
+
+#growers-list, #orchid-doctor, #latest-updated, #growing-tips, #products {
+  border: 1px solid #a7d353;
+  border-radius: 6px;
+  padding: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+#growers-list h5, #orchid-doctor h5, #growing-tips h5, #products h5 {
+  color: #698d24;
+}
+#growers-list button, #orchid-doctor button, #growing-tips button, #products button {
+  float: right;
+}
+
+#outernav {
+  margin: 10px 0 10px 0;
+}
+
+#extra-images {
+  text-align: right;
+}
+
+#extra-images ul {
+  margin-bottom: 0px;
+}
+
+#extra-images .btn {
+  margin-top: -20px;
+}
+
+#tips {
+  border-radius: 6px;
+  border: 1px solid #b7db72;
+  text-align: justify;
+}
+
+#tips h4 {
+  background-color: #b7db72;
+  padding: 10px;
+  margin: 0px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+#tips p {
+  padding: 0px 20px 0px 20px;
+}
+
+
+.tabs-left>.nav-tabs {
+  border: 1px solid #b7db72;
+  border-radius: 6px;
+  margin: 10px;
+}
+
+.tabs-left>.nav-tabs .active>a {
+  border: none;
+  border-radius: 6px;
+  margin: 0px;
+}
+
+#more-tips {
+  text-align: right;
+}
+
+.icon-chevron-right {
+  float: right;
+  margin-left: 15px;
+}
+
+#tips-list {
+  padding: 20px;
+}
+
+#top-genus {
+  overflow: hidden;
+}
+
+.genus-button {
+  float: right;
+}
+
+#login {
+  font-size: 10px;
+}

@@ -1,0 +1,26 @@
+{% load thumbnail staticfiles cache i18n grower_tags %}
+{#% cache 172800 related-products taxon.id %#}
+{% get_related_products_for taxon as related_products %}
+    {% if related_products %}
+        <div id="products">
+          <h4>{% block trans %}Buy {{ taxon.scientific }}{% endblock %}</h4>
+            <ul class="orchids search-results mini">
+                {% for result in related_products %}
+                <li>
+                    <a href="{{ result.get_absolute_url }}" title="{{ result.title }}" class="block">
+                        {% if not result.imagen %}
+                        <img src="{% static 'img/no-image_thumbnail.png' %}" alt="{{ result.title }}" width="100" height="100" title="{{ result.title }}">
+                        {% else %}
+                        {% thumbnail result.imagen "100x100" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ result.title }}" width="{{ im.width }}" height="{{ im.height }}" title="{{ result.title }}">
+                        {% endthumbnail %}
+                        {% endif %}
+                    </a>
+                    <a href="{{ result.get_absolute_url }}" title="{{ result.title }}">{{ result.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+          <h5><a href="{% url 'haystack_search' %}?models=onsale">{% trans "Explore more orchids for sale" %}</a></h5>
+        </div>
+    {% endif %}
+{#% endcache %#}

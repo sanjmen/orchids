@@ -1,0 +1,81 @@
+{% load i18n %}
+{% block nav %}
+    <ul class="nav">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="_gaq.push(['_trackEvent', 'Header Menu', 'Orchids', 'click']);">{% trans 'Orchids'%}
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="nav-header">Orchid Species</li>
+                <li><a href="/search/?models=species" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Browse all', 'click']);">{% trans 'Browse all orchid species'%}</a></li>
+                <li class="nav-header">Top Species</li>
+                <li><a href="/orchid/species/17305/stanhopea-tigrina/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Stanhopea Tigrina', 'click']);">Stanhopea Tigrina</a></li>
+                <li><a href="/orchid/species/1337/cymbidium-aliciae/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Cymbidium aliciae', 'click']);">Cymbidium aliciae</a></li>
+                <li><a href="/orchid/species/2932/vanda-tricolor/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Vanda tricolor', 'click']);">Vanda tricolor</a></li>
+                <li><a href="/orchid/species/27470/cattleya-aclandiae/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Cattleya aclandiae', 'click']);">Cattleya aclandiae</a></li>
+                <li class="nav-header">Orchid Genus</li>
+                <li><a href="/search/?models=genus" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'All Species', 'click']);">{% trans 'Browse All'%}</a></li>
+                <li class="nav-header">Most Popular Genus</li>
+                <li><a href="/orchid/genus/133/cattleya/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Cattleya', 'click']);">Cattleya</a></li>
+                <li><a href="/orchid/genus/253/dendrobium/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Dendrobium', 'click']);">Dendrobium</a></li>
+                <li><a href="/orchid/genus/624/phalaenopsis/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Phalaenopsis', 'click']);">Phalaenopsis</a></li>
+                <li><a href="/orchid/genus/857/vanda/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Vanda', 'click']);">Vanda</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="_gaq.push(['_trackEvent', 'Header Menu', 'Growers', 'click']);">{% trans 'Growers'%}
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="nav-header">Search and Browse Growers &amp; Nurseries</li>
+                <li><a href="/search/?models=growers" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'All Growers', 'click']);">{% trans 'Growers List'%}</a></li>
+                <li class="nav-header">Growers by location</li>
+                <li><a href="/search/?q=california&models=growers" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'California Growers', 'click']);">Growers in California</a></li>
+                <li><a href="/search/?q=florida&models=growers" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Florida Growers', 'click']);">Growers in Florida</a></li>
+                <li><a href="/search/?q=new+york&models=growers" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'New York Growers', 'click']);">Growers in New York</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="_gaq.push(['_trackEvent', 'Header Menu', 'Growing Tips', 'click']);">{% trans 'Growing Tips'%}
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/search/?models=tips" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'All Tips', 'click']);">{% trans 'Search and Browse Culture Tips'%}</a></li>
+                <li class="nav-header">Growing tips for top genus</li>
+                <li><a href="/search/?q=cattleya&models=tips" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Tips for Cattleya', 'click']);">Growing tips for Cattleya</a></li>
+                <li><a href="/search/?q=phalaenopsis&models=tips" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Tips for Phalaenopsis', 'click']);">Growing tips for Phalaenopsis</a></li>
+                <li><a href="/search/?q=dendrobium&models=tips" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Tips for Dendrobium', 'click']);">Growing tips for Dendrobium</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="_gaq.push(['_trackEvent', 'Header Menu', 'Buy Orchids', 'click']);">{% trans 'Buy Orchids'%}
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/search/?models=onsale" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search all', 'click']);">{% trans 'Search and Browse'%}</a></li>
+                <li class="nav-header">Most Popular Species</li>
+                <li><a href="/orchids-for-sale/cattleya-labiata/511/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'buy Catteya labiata', 'click']);">Cattleya labiata</a></li>
+                <li><a href="/orchids-for-sale/cymbidium-dayanum/533/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'buy Cymbidium dayanum', 'click']);">Cymbidium dayanum</a></li>
+                <li><a href="/orchids-for-sale/dendrobium-kingianum/591/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'buy Dendrobium Kingianum', 'click']);">Dendrobium kingianum</a></li>
+                <li><a href="/orchids-for-sale/oncidium-excavatum/783/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'buy Oncidium excavatum', 'click']);">Oncidium excavatum</a></li>
+                <li><a href="/orchids-for-sale/stanhopea-gibbosa/875/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'buy Stanhopea gibbosa', 'click']);">Stanhopea gibbosa</a></li>
+                <li><a href="/orchids-for-sale/vanda-luzonica/903/" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'buy Vanda luzonica', 'click']);">Vanda luzonica</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="_gaq.push(['_trackEvent', 'Header Menu', 'Search', 'click']);">{% trans 'Search'%}
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/search/?models=species" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search all', 'click']);">{% trans 'All'%}</a></li>
+                <li><a href="/search/?models=species" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search Species', 'click']);">Species</a></li>
+                <li><a href="/search/?models=genus" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search Genus', 'click']);">Genus</a></li>
+                <li><a href="/search/?models=posts" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search News', 'click']);">News & Articles</a></li>
+                <li><a href="/search/?models=tips" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search Tips', 'click']);">Growing Tips</a></li>
+                <li><a href="/search/?models=conditions" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search Conditions', 'click']);">Natural Growing Conditions</a></li>
+                <li><a href="/search/?models=growers" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search Growers', 'click']);">Growers</a></li>
+                <li><a href="/search/?models=onsale" onclick="_gaq.push(['_trackEvent', 'Header Menu Option', 'Search Orchids for Sale', 'click']);">{% trans 'Orchids for Sale'%}</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock %}

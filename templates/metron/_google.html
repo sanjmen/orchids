@@ -1,0 +1,26 @@
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '{{ code }}']);
+    if (window.customVar1) {
+        _gaq.push(['_setCustomVar', 1, window.customVar1[0], window.customVar1[1], window.customVar1[2]]);
+    };
+    if (window.customVar2) {
+        _gaq.push(['_setCustomVar', 2, window.customVar2[0], window.customVar2[1], window.customVar2[2]]);
+    };
+    if (window.customVar3) {
+        _gaq.push(['_setCustomVar', 3, window.customVar3[0], window.customVar3[1], window.customVar3[2]]);
+    };
+    if (window.customVar4) {
+        _gaq.push(['_setCustomVar', 4, window.customVar4[0], window.customVar4[1], window.customVar4[2]]);
+    };
+    if (window.customVar5) {
+        _gaq.push(['_setCustomVar', 5, window.customVar5[0], window.customVar5[1], window.customVar5[2]]);
+    };
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_trackPageLoadTime']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>

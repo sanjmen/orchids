@@ -1,0 +1,121 @@
+{% extends "taxon/base.html" %}
+{% load i18n markup staticfiles %}
+{% load tips_tags taxon_tags orcheeder_tags pagination_tags tagging_tags %}
+{% spaceless %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', {% if taxon.rank == 'sp.' %}'Species More Posts'{% else %}'Genus More Posts'{% endif %}, 2];
+    var customVar3 = ['Taxon', '{{ taxon.scientific }}', 3];
+{% endblock %}
+
+{% block head_title %}
+    {% block page_title %}
+        Articles, news, forum discussions and blog posts about {{ taxon.get_partial|safe }}
+    {% endblock %}
+{% endblock head_title %}
+
+{% block metatags %}
+    <meta name="title" content="Articles, news, forum discussions and blog posts about {{ taxon.get_partial|safe }}"/>
+    <meta name="description" content="Read news, articles, forum discussions and blog posts related to {{ taxon.scientific|safe }} orchid"/>
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
+
+{% block breadcrumb_app %}
+    {% if taxon.get_rank_display == 'species' %}
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the genus list page{% endblocktrans %}" href="{% url 'haystack_search' %}?models=genus">{% trans 'Genus' %}</a>
+        </li>
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the genus detail page{% endblocktrans %}" href="{{ taxon.get_parent.get_absolute_url }}">{{ taxon.get_parent.get_partial|capfirst }}</a>
+        </li>
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans with rank=taxon.get_rank_display %} Go to the {{ rank }} list page {% endblocktrans %}" href="{% url 'haystack_search' %}?models={{ taxon.get_rank_display }}">{{ taxon.get_rank_display|capfirst }}</a>
+        </li>
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the species detail page{% endblocktrans %}" href="{{ taxon.get_absolute_url }}">{{ taxon.get_partial|capfirst }}</a>
+        </li>
+        <li class="active"><span class="divider">/</span>News</li>
+    {% else %}
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the genus list page{% endblocktrans %}" href="{% url 'haystack_search' %}?models=genus">{% trans 'Genus' %}</a>
+        </li>
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the genus detail page{% endblocktrans %}" href="{{ taxon.get_absolute_url }}">{{ taxon.get_partial|capfirst }}</a>
+        </li>
+        <li class="active"><span class="divider">/</span>News</li>
+    {% endif %}
+{% endblock %}
+
+
+{% block left_column %}
+    <div class="row-fluid">
+
+        {% autopaginate related_post_list 10 %}
+        <div id="related-posts" class="row-fluid">
+            <h1>Articles, news, forum discussions and blog posts about</h1>
+            {% include "taxon/includes/taxon-snippet.html" with taxon=taxon %}
+
+            {% block ads1 %}
+                <script type="text/javascript"><!--
+                    google_ad_client = "ca-pub-0221662690945981";
+                    /* news_1 */
+                    google_ad_slot = "2701332780";
+                    google_ad_width = 728;
+                    google_ad_height = 90;
+                    //-->
+                </script>
+                <script type="text/javascript"
+                    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                </script>
+            {% endblock %}
+
+            {% for related_post in related_post_list %}
+            <ul>
+                <li>
+                    <small>({{ related_post.date_created|date:"M d Y" }})</small>
+                    <h2><a href="{{ related_post.get_absolute_url }}" title="{{ related_post.title }}">{{ related_post.title|default:"Untitled" }}</a></h2>
+                    <p>
+                        {{ related_post.content|striptags|safe|truncatewords:"25" }}
+                        <a href="{{ related_post.get_absolute_url }}" title="{{ related_post.title }}">read more</a>
+                    </p>
+                </li>
+            </ul>
+            {% endfor %}
+        </div>
+        {% paginate %}
+
+        <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-0221662690945981";
+            /* news_2 */
+            google_ad_slot = "1084998783";
+            google_ad_width = 728;
+            google_ad_height = 15;
+            //-->
+        </script>
+        <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </div>
+
+{% endblock %}
+
+{% block right_column %}
+    <div class="row-fluid">
+        {% include "taxon/includes/latest_species.html" %}
+
+        <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-0221662690945981";
+            /* news_3 */
+            google_ad_slot = "2561731989";
+            google_ad_width = 336;
+            google_ad_height = 280;
+            //-->
+        </script>
+        <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </div>
+{% endblock %}
+
+{% endspaceless %}

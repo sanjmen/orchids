@@ -1,0 +1,9 @@
+{% load markup %}
+{{ object.grower.name }}
+{{ object.title }}
+{{ object.origin }}
+{{ object.description|safe|markdown|striptags }}
+{{ object.price }}
+{{ object.mount }}
+{{ object.size }}
+{{ object.growing_scale }}

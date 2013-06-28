@@ -1,0 +1,67 @@
+{% extends "site_base.html" %}
+{% load staticfiles tagging_tags cache %}
+{% spaceless %}
+
+{% block breadcrumb_app %}
+    {% block breadcrumb_section %}{% endblock %}
+    {% block breadcrumb_detail %}{% endblock %}
+{% endblock %}
+
+{% block left_column %}
+    {% block ads1 %}
+        <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-0221662690945981";
+            /* Post */
+            google_ad_slot = "0759247045";
+            google_ad_width = 728;
+            google_ad_height = 90;
+            //-->
+        </script>
+        <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* post_4 */
+        google_ad_slot = "3469081985";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+
+{% endblock %}
+
+{% block latest_species %}
+
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* post_2 */
+        google_ad_slot = "0851420424";
+        google_ad_width = 336;
+        google_ad_height = 280;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+
+    {% include "taxon/includes/latest_species.html" %}
+
+{% endblock %}
+
+
+{% block tag_cloud %}
+    {% cache 172800 planet-cloud %}
+        {% tag_cloud_for_model planet.Post as tags_cloud with steps=7 min_count=75 distribution=log %}
+        {% include 'planet/tags/blocks/cloud.html' %}
+    {% endcache %}
+{% endblock %}
+
+{% endspaceless %}

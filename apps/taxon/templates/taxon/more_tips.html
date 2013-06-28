@@ -1,0 +1,142 @@
+{% extends "taxon/detail.html" %}
+{% load i18n markup staticfiles %}
+{% load taxon_tags pagination_tags %}
+{% spaceless %}
+
+{% block customvars %}
+    {% if tip_list|length > 3 %}
+        var customVar2 = ['Landing Page Type', {% if taxon.rank == 'sp.' %}'Species More Tips Paginated'{% else %}'Genus More Tips Paginated'{% endif %}, 2];
+    {% else %}
+        var customVar2 = ['Landing Page Type', {% if taxon.rank == 'sp.' %}'Species More Tips'{% else %}'Genus More Tips'{% endif %}, 2];
+    {% endif %}
+    var customVar3 = ['Taxon', '{{ taxon.scientific }}', 3];
+{% endblock %}
+
+{% block head_title %}
+    {% block page_title %}
+        Tips for growing and care for {{ taxon.get_partial|safe }}
+    {% endblock %}
+{% endblock head_title %}
+
+{% block metatags %}
+    <meta name="title" content="Tips for grow and cultural care for {{ taxon.get_partial|safe }}"/>
+    <meta name="description" content="How to grow {{ taxon.scientific|safe }} orchid"/>
+    <meta name="keywords" content="orchids, {{ taxon.get_rank_display }}, {{ taxon.get_partial|lower }}, culture, care, how to grow"/>
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
+
+{% block breadcrumb_app %}
+    {% if taxon.get_rank_display == 'species' %}
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the genus list page{% endblocktrans %}" href="{% url 'haystack_search' %}?models=genus">{% trans 'Genus' %}</a>
+        </li>
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the genus detail page{% endblocktrans %}" href="{{ taxon.get_parent.get_absolute_url }}">{{ taxon.get_parent.get_partial|capfirst }}</a>
+        </li>
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans with rank=taxon.get_rank_display %} Go to the {{ rank }} list page {% endblocktrans %}" href="{% url 'haystack_search' %}?models={{ taxon.get_rank_display }}">{{ taxon.get_rank_display|capfirst }}</a>
+        </li>
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the species detail page{% endblocktrans %}" href="{{ taxon.get_absolute_url }}">{{ taxon.get_partial|capfirst }}</a>
+        </li>
+    {% else %}
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the genus list page{% endblocktrans %}" href="{% url 'haystack_search' %}?models=genus">{% trans 'Genus' %}</a>
+        </li>
+        <li><span class="divider">/</span>
+        <a title="{% blocktrans %} Go to the genus detail page{% endblocktrans %}" href="{{ taxon.get_absolute_url }}">{{ taxon.get_partial|capfirst }}</a>
+        </li>
+    {% endif %}
+        <li class="active"><span class="divider">/</span>Growing and Caring Tips</li>
+{% endblock %}
+
+{% block left_column %}
+    <div class="row-fluid">
+        <h1>Culture, care and growing tips for</h1>
+        {% include "taxon/includes/taxon-snippet.html" with taxon=taxon %}
+
+        {% block ads1 %}
+            <br/>
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* tips_1 */
+                google_ad_slot = "6389829186";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        {% endblock %}
+
+        {% autopaginate tip_list 3 %}
+        {% for tip in tip_list %}
+            <div class="result">
+                {% if tip.condition_type %}
+                <div class="name">
+                   <h3>{{ tip.condition_type }}</h3>
+                </div>
+                {% endif %}
+                <ul class="content">
+                    <li class="span10">
+                        <p>{{ tip.text|safe|markdown }}</p>
+                    </li>
+                </ul>
+                {% if forloop.counter == 2 and tip.text|wordcount > 200 %}
+                    <script type="text/javascript"><!--
+                        google_ad_client = "ca-pub-0221662690945981";
+                        /* tips_5 */
+                        google_ad_slot = "1595821983";
+                        google_ad_width = 728;
+                        google_ad_height = 15;
+                        //-->
+                    </script>
+                    <script type="text/javascript"
+                        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                    </script>
+                {% endif %}
+            </div>
+        {% endfor %}
+        {% paginate %}
+
+        {% if has_genus_tips %}
+            <a href="{% url 'genus_more_tips' taxon.parent.id taxon.parent.get_slug %}" class="btn btn-success genus-button"
+                onclick="_gaq.push(['_trackEvent', 'Genus Tips', 'From Species Tips', 'click']);">More tips for {{ taxon.parent }}</a>
+            <br/><br/>
+        {% endif %}
+
+        {% include "includes/related_posts.html" %}
+
+        <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-0221662690945981";
+            /* tips_2 */
+            google_ad_slot = "1820028780";
+            google_ad_width = 728;
+            google_ad_height = 15;
+            //-->
+        </script>
+        <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </div>
+{% endblock %}
+
+{% block latest_species %}
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* tips_3 */
+        google_ad_slot = "3296761989";
+        google_ad_width = 336;
+        google_ad_height = 280;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+
+    {% include "taxon/includes/latest_species.html" %}
+{% endblock %}
+
+{% endspaceless %}

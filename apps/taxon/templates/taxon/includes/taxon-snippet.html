@@ -1,0 +1,17 @@
+{% load thumbnail %}
+{% with taxon.get_main_image as main_image and taxon.get_proxy as real_taxon %}
+    {% if main_image %}
+    <div class="media">
+        {% thumbnail main_image.image "175x175" crop="center" as im %}
+        <a class="pull-left" href="{{ real_taxon.get_absolute_url }}" title="See details for {{ taxon.scientific }}">
+            <img class="media-object" id="{{ main_image.id }}" src="{{ im.url }}" alt="{{ taxon.scientific }}" width="{{ im.width }}" height="{{ im.height }}">
+        </a>
+        {% endthumbnail %}
+        <div class="media-body">
+            <h2><a href="{{ real_taxon.get_absolute_url }}" title="Go to {{ real_taxon }} page">{{ real_taxon|capfirst }}</a></h2>
+        </div>
+    </div>
+    {% else %}
+    <h2><a href="{{ real_taxon.get_absolute_url }}" title="Go to {{ real_taxon }} page">{{ real_taxon|capfirst }}</a></h2>
+    {% endif %}
+{% endwith %}

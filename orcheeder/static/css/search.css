@@ -1,0 +1,33 @@
+#everywhere-search-form * {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+#everywhere-search-form select option {
+    display: block;
+}
+
+#everywhere-search-form form {
+    margin: 0;
+}
+
+div#everywhere-search-form {
+    border-radius: 6px;
+    padding-top: 2px;
+    margin-left: 10px;
+}
+
+div#everywhere-search-form.nav.pull-left form label {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: rgb(153, 153, 153);
+  background-color: transparent;
+}
+
+div#everywhere-search-form.nav.pull-left form button.btn.btn-primary {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.form-search { margin: 0; }
+.form-search ul { margin: 0 0 0 25px; }

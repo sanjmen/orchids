@@ -1,0 +1,46 @@
+{% extends "planet/base.html" %}
+{% load i18n pagination_tags planet_tags %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Post List', 2];
+{% endblock %}
+
+{% block head_title %}{% trans 'Post list' %}{{ block.super }}{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{% trans 'Post list' %} - {{ site.name }}" />
+    <meta name="description" content="{% trans 'Posts list' %} - {{ site.name }}" />
+    <meta name="robots" content="noindex, follow" />
+{% endblock %}
+
+{% block breadcrumb_section %}
+    <span class="divider">/</span>
+    <li class="active">{% trans 'Posts' %}</li>
+{% endblock %}
+
+{% block content %}
+
+    <h1>{% trans "Latest posts" %}</h1>
+    {% autopaginate posts 10 %}
+    {% for post in posts %}
+        {% if forloop.counter|divisibleby:"3" %}
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* Post_1 */
+                google_ad_slot = "7502754789";
+                google_ad_width = 728;
+                google_ad_height = 15;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        {% endif %}
+
+        <div class="result">
+            {% post_details post %}
+        </div>
+    {% endfor %}
+    {% paginate %}
+
+{% endblock %}

@@ -1,0 +1,4 @@
+*.pyc
+*.swp
+orcheeder/orcheeder/site_media/*
+fabfile.py

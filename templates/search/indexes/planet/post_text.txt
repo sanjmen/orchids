@@ -1,0 +1,3 @@
+{{ object.title|striptags }}
+{{ object.content|striptags }}
+{% for tag in post.tags.all %}{{ tag.name }}{% endfor %}

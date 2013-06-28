@@ -1,0 +1,289 @@
+{% extends "taxon/base.html" %}
+{% load staticfiles i18n humanize markup tagging_tags cache %}
+{% load conditions_tags orcheeder_tags %}
+{% load taxon_tags tips_tags %}
+{% load thumbnail %}
+{% spaceless %}
+
+{% block head_title_base %}
+    {% block head_title %}
+        {% block page_title %}
+            {{ taxon.get_partial|safe }}
+        {% endblock %}
+    {% endblock head_title %}
+    orchids: information, habitat, photos and culture tips
+{% endblock %}
+
+{% tags_for_object taxon as tag_list % }
+
+{% block metatags %}
+    <meta name="title" content="{{ taxon.get_partial|safe }} - orchid {{ taxon.get_rank_display }}"/>
+    <meta name="description" content="See information, how to culture, growing and caring tips, photos, drawings, news, articles, taxonomy, orchid specimenes, books and links to other resources for orchid {{ taxon.get_partial }}."/>
+    <meta name="keywords" content="{% for tag in tag_list %}{{ tag.name }}, {% endfor %} orchid, {{ taxon.get_rank_display }}, photos, books, culture, care, growing, tips, images, {{ taxon.get_partial|lower }}, {{ taxon.author|lower }}"/>
+    <meta name="robots" content="index, follow">
+{% endblock %}
+
+{% block body_class %}{{ taxon.get_rank_display }}{% endblock %}
+
+{% block breadcrumb_app %}
+{% endblock %}
+
+{% block left_column %}
+    <div class="row-fluid">
+
+        <div id="taxon">
+
+            <div class="hero-unit">
+                <div class="row-fluid">
+                    <div class="span3" id="classification">
+                        <small>
+                            <p>Family:<strong> Orchidaceae</strong></p>
+                            {% block classification %}{% endblock %}
+                        </small>
+                    </div>
+                    <div class="span9" id="scientific-name">
+                        <h1><em>{{ taxon.scientific }}</em></h1>
+                    </div>
+                </div>
+            </div>
+
+            {% block ads1 %}{% endblock %}
+
+            {% block ads1b %}{% endblock %}
+
+            <div class="tab-content">
+                 <ul id="taxon-tabs" class="nav nav-tabs">
+                    <li><a href="#name-details" data-toogle="tab" onclick="_gaq.push(['_trackEvent', 'Tab', 'Name Details', 'click']);">{% trans "Name Details" %}</a></li>
+                    <li><a href="#description" data-toogle="tab" onclick="_gaq.push(['_trackEvent', 'Tab', 'Description', 'click']);">{% trans "Description" %}</a></li>
+                    <li><a href="#habitat" data-toogle="tab" onclick="_gaq.push(['_trackEvent', 'Tab', 'Habitat', 'click']);">{% trans "Habitat" %}</a></li>
+                    <li><a href="#tips" data-toogle="tab" onclick="_gaq.push(['_trackEvent', 'Tab', 'Growing Tips', 'click']);">{% trans "Growing Tips" %}</a></li>
+                    <li><a href="#related-posts" data-toogle="tab" onclick="_gaq.push(['_trackEvent', 'Tab', 'News and articles', 'click']);">{% trans "News & Articles" %}</a></li>
+                    <li><a href="#tags" data-toogle="tab" onclick="_gaq.push(['_trackEvent', 'Tab', 'Tags', 'click']);">{% trans "Tags" %}</a></li>
+                </ul>
+
+                {#% cache 172800 images-tab taxon.id %#}
+                {% with taxon.get_extra_images as extra_images and taxon.get_main_image as main_image %}
+                {% if main_image or extra_images %}
+                <div class="row-fluid" id="images">
+                    {% if main_image %}
+                        <div id="main-image" class="span5 thumbnail" data-toggle="modal" data-target="#myModal">
+                            {% thumbnail main_image.image "400x400" crop="center" as im %}
+                            <a href="{{ main_image.get_original_url }}" onclick="_gaq.push(['_trackEvent', 'Taxon Image', '{{ taxon.scientific }}', 'click']);">
+                                <img class="" id="{{ main_image.id }}" src="{{ im.url }}" alt="{{ taxon.scientific }}" width="{{ im.width }}" height="{{ im.height }}">
+                            </a>
+                            {% endthumbnail %}
+                        </div>
+                    {% endif %}
+                    {% if extra_images %}
+                        <div id="extra-images" class="span6">
+                            <ul class="orchids search-results thumbnails">
+                                {% for extra_im in extra_images|slice:":6" %}
+                                <li class="span4">
+                                    <div class="thumbnail" data-toggle="modal" data-target="#myModal">
+                                        <a href="{{ extra_im.get_original_url }}" onclick="_gaq.push(['_trackEvent', 'Taxon Image', '{{ taxon.scientific }}', 'click']);">
+                                            {% thumbnail extra_im.image "175x175" crop="center" as im %}
+                                            <img id="{{ extra_im.id }}" src="{{ im.url }}" alt="{{ im.name.scientiific }}" width="{{ im.width }}" height="{{ im.height }}" title="{{ im.name.scientific }}">
+                                            {% endthumbnail %}
+                                        </a>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% if extra_images|length > 6 %}
+                                <button class="btn btn-large btn-success" type="button" onclick="_gaq.push(['_trackEvent', 'Button', 'More Images {{ taxon.scientific }}', 'click']);">More Images</button>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endwith %}
+                {#% endcache %#}
+
+                {#% cache 172800 taxon-details-table taxon.id %#}
+                <table id="name-details" class="table table-bordered">
+                    <caption>
+                        <h4>Orchid name details</h4>
+                    </caption>
+                    <tbody>
+                        <tr>
+                            <td>Rank:</td>
+                            <td>{{ taxon.get_rank_display|capfirst }}</td>
+                        </tr>
+
+                        {% if taxon.author %}
+                        <tr>
+                            <td>Author:</td>
+                            <td>{{ taxon.author }}</td>
+                        </tr>
+                        {% endif %}
+
+                        {% if taxon.common_name %}
+                        <tr>
+                            <td>Common name:</td>
+                            <td><h2>{{ taxon.common_name }}</h2></td>
+                        </tr>
+                        {% endif %}
+
+                        {% if taxon.reference_set.all %}
+                        <tr>
+                            <td>Published in:</td>
+                            <td>
+                            {% for reference in taxon.reference_set.all %}
+                            {{ reference }}{% if not forloop.last %}</br>{% endif %}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+
+                        {% if taxon.synonyms.all %}
+                        <tr>
+                            <td>Synonyms:</td>
+                            <td>
+                            {% for synonym in taxon.synonyms.all %}
+                            <a href="{% url 'synonym_detail' synonym.id synonym.get_slug %}" title="{{ synonym.get_complete }}">
+                                <em>{{ synonym.get_complete }}</em>
+                            </a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+
+                    </tbody>
+                </table>
+                {#% endcache %#}
+
+                {#% cache 172800 taxon-countries taxon.id %#}
+                {% get_natural_conditions_for taxon as condition_list %}
+                {% if condition_list or taxon.countries.all %}
+                <table id="habitat" class="table table-bordered">
+                    <caption><h4>Habitat and distribution for {{ taxon.scientific }}</h4></caption>
+                    <tbody>
+                        {% for condition in condition_list %}
+                        <tr>
+                            <td>{{ condition.condition_type.name }}:</td>
+                            <td>{{ condition.text }}</td>
+                        </tr>
+                        {% endfor %}
+
+                        {% if taxon.countries.all %}
+                        <tr>
+                            <td>Countries:</td>
+                            <td>
+                            {% for country in taxon.countries.all %}
+                            {{ country.printable_name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                {% endif %}
+                {#% endcache %#}
+
+                {#% cache 172800 taxon-tips taxon.id %#}
+                {% get_growing_conditions_for taxon as growing_conditions %}
+                {% if not growing_conditions %}
+                    {% get_growing_conditions_for taxon.parent as growing_conditions %}
+                {% endif %}
+                {% if growing_conditions %}
+                    <div id="tips">
+                        <h4>Culture, care and growing tips for {{ taxon.scientific }}</h4>
+                        <div class="tabbable tabs-left" id="tips-tabs">
+                            <ul class="nav nav-tabs">
+                            {% for tip in growing_conditions|slice:":3" %}
+                                    {% if forloop.first %}<li class="active">{% else %}<li>{% endif %}
+                                <a href="#{{ tip.condition_type.code }}" data-toogle="tab">
+                                    <i class="icon-chevron-right"></i>
+                                    {{ tip.condition_type }}
+                                </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                            <div class="tab-content" id="tips-list">
+                            {% for tip in growing_conditions|slice:":3" %}
+                                {% if forloop.first %}
+                                    <div class="tab-pane active" id="{{ tip.condition_type.code }}">
+                                {% else %}
+                                    <div class="tab-pane fade" id="{{ tip.condition_type.code }}">
+                                {% endif %}
+                                    <p>{{ tip.text|markdown|truncatewords:15 }}{% block read_more_tip %}{% endblock %}</p>
+                                    </div>
+                            {% endfor %}
+                            {% if growing_conditions|length > 3 %}
+                                <div id="more-tips">
+                                    {% block see_more_tips %}{% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                {% else %}
+                    {% block old_style_tips %}
+                    {% get_tips_for taxon as tip_list %}
+                    {% if not tip_list %}
+                        {% get_tips_for taxon.get_parent as tip_list %}
+                    {% endif %}
+                    {% if tip_list %}
+                        <div id="tips">
+                            <h4>Culture, care and growing tips for {{ taxon.scientific }}</h4>
+                            {% for tip in tip_list|slice:":3" %}
+                                <p>{{ tip.text|markdown|truncatewords:15 }}{% block read_more_tip2 %}{% endblock %}</p>
+                            {% endfor %}
+                            {% if tip_list|length > 3 %}
+                                {% block see_more_tips2 %}{% endblock %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% endblock %}
+                {% endif %}
+                {#% endcache %#}
+
+                {% if taxon.description %}
+                    <div id="description">
+                        <h4>Description:</h4>
+                        <p>{{ taxon.description|default:""|markdown|safe }}</p>
+                    </div>
+                {% endif %}
+
+                {% tags_for_object taxon as tag_list %}
+                {% if tag_list %}
+                    <div id="tags">
+                        <h4>Tags:</h4>
+                        {% for tag in tag_list %}
+                                <a href="/news/tags/{{ tag.name }}/">
+                                <h5><span class="label label-important">{{ tag.name }}</span></h5>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+        {% include "includes/related_posts.html" %}
+
+        {% block ads2 %}{% endblock %}
+
+        {% block related_orchids %}{% endblock %}
+
+        <div id="myModal" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+
+    </div>  <!-- end row-fluid -->
+{% endblock %}
+
+{% block related_products %}
+
+    {% include "growers/includes/related_products.html" %}
+
+{% endblock %}
+
+{% endspaceless %}

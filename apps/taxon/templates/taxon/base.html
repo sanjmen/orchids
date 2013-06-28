@@ -1,0 +1,14 @@
+{% extends "site_base.html" %}
+{% load disqus_tags orcheeder_tags %}
+{% spaceless %}
+
+{% block disqus %}
+    <div class="row-fluid">
+        {% with taxon|get_full_url as taxon_url %}
+            {% set_disqus_url taxon_url %}
+        {% endwith %}
+        {% disqus_show_comments %}
+    </div>
+{% endblock %}
+
+{% endspaceless %}

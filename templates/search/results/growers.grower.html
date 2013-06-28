@@ -1,0 +1,22 @@
+{% load markup %}
+<div class="result">
+    <div class="name">
+        <h3>
+            <a href="{% url 'growers.views.grower_detail' result.object.slug %}" title="{{ result.object.name }}">
+                {{ result.object.name }}
+            </a>
+        </h3>
+    </div>
+    <ul class="content">
+        <li class="span10">
+            {% if result.object.description %}
+              {{ result.object.description|safe|markdown|truncatewords_html:"50" }}
+            {% endif %}
+            <span class="label label-success">{{ result.object.usstate }}</span>
+            <span class="label label-success">{{ result.object.country }}</span>
+            <a href="{% url 'growers.views.grower_detail' result.object.slug %}" title="{{ result.object.name }}">
+              See more about {{ result.object.name }}
+            </a>
+        </li>
+    </ul>
+</div>

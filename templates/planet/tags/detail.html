@@ -1,0 +1,46 @@
+{% extends "planet/base.html" %}
+{% load i18n pagination_tags tagging_tags planet_tags %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Planet Tag Detail', 2];
+{% endblock %}
+
+{% block head_title %}{% trans 'Posts under tag' %} {{ tag }}{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{{ tag }} {% trans 'tag in' %} {{ site.name }}" />
+    <meta name="description" content="{{ tag }} - {% trans 'Posts in' %} {{ site.name }}" />
+    <meta name="robots" content="index, follow" />
+{% endblock %}
+
+{% block head_feeds %}
+    <link rel="alternate" type="application/rss+xml" title="{% trans 'tag' %} {{ tag }} {% trans 'in' %} {{ site.name }} - RSS 2.0 Feed" href="{% url planet_tag_rss_feed tag %}" />
+    <link rel="alternate" type="application/rss+xml" title="{% trans 'Posts in' %} {{ site.name }} - RSS 2.0 Feed" href="{% url planet_rss_feed %}" />
+{% endblock %}
+
+{% block rss_feed %}
+    <a href="{% url 'planet_tag_rss_feed' tag %}" title="{% trans 'Suscribe to RSS feed for tag' %} {{ tag }}">
+        <img src="{{ MEDIA_URL }}images/rss20.png" alt="RSS 2.0 Feed"/>
+    </a>
+{% endblock %}
+
+{% block breadcrumb_section %}
+    <span class="divider">/</span>
+    <li><a href="{% url 'planet.views.tags_cloud' %}">Tags</a> <span class="divider">/</span></li>
+{% endblock %}
+{% block breadcrumb_detail %}
+    <li class="active">{{ tag.name }}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Tag" %}: {{ tag }}</h1>
+    {% autopaginate posts 20 %}
+    {% for post in posts %}
+        <div class="result {% cycle 'even' 'odd' %} clearfix">
+            {% post_details post %}
+        </div>
+    {% endfor %}
+
+    {% paginate %}
+{% endblock %}
+

@@ -1,0 +1,81 @@
+{% extends "taxon/detail.html" %}
+{% load i18n markup staticfiles %}
+{% load taxon_tags pagination_tags %}
+{% spaceless %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Synonym Detail', 2];
+{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{{ taxon.get_partial|safe }} - orchid {{ taxon.get_rank_display }}"/>
+    <meta name="description" content="See information about {{ taxon.get_partial }}"/>
+    <meta name="keywords" content="{% for tag in tag_list %}{{ tag.name }}, {% endfor %} orchid, {{ taxon.get_rank_display }}, photos, books, culture, care, growing, tips, images, {{ taxon.get_partial|lower }}, {{ taxon.author|lower }}"/>
+    <meta name="robots" content="noindex, follow">
+{% endblock %}
+
+{% block breadcrumb_app %}
+    <li><span class="divider">/</span>Orchids</li>
+    <li class="active"><span class="divider">/</span>{{ taxon.get_partial }}</li>
+{% endblock %}
+
+{% block left_column %}
+    <div class="row-fluid">
+        <h1><em>{{ taxon.get_complete }}</em> orchid</h1>
+
+        <h4><em>{{ taxon.get_complete }}</em> is a synonym of <a href="{{ taxon.get_accepted_name.get_absolute_url }}" title="{{ taxon.get_accepted_name.get_partial }}">
+                <em>{{ taxon.get_accepted_name.get_complete }}</em>
+            </a>
+        </h4>
+
+        {% include "taxon/includes/taxon-snippet.html" with taxon=taxon.get_accepted_name %}
+
+        {% block ads1 %}
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* synonym_1 */
+                google_ad_slot = "3216352384";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        {% endblock %}
+
+        {% include "includes/related_posts.html" %}
+
+        <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-0221662690945981";
+            /* synonym_2 */
+            google_ad_slot = "4693085589";
+            google_ad_width = 728;
+            google_ad_height = 15;
+            //-->
+        </script>
+        <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+        </div>
+
+{% endblock %}
+
+{% block latest_species %}
+
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* synonym_3 */
+        google_ad_slot = "6169818780";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+
+    {% include "taxon/includes/latest_species.html" %}
+{% endblock %}
+
+{% endspaceless %}

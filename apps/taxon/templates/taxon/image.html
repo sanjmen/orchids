@@ -1,0 +1,5 @@
+{% load thumbnail %}
+{% thumbnail photo "500x500" crop="center" as im %}
+  <img class="" id="{{ photo.id }}" src="{{ im.url }}" alt="{{ photo.name.scientific }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+

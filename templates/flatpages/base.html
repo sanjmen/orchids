@@ -1,0 +1,32 @@
+{% extends "site_base.html" %}
+{% load i18n markup disqus_tags %}
+
+{% block head_title %}{{ flatpage.title }}{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{{ flatpage.title }}"/>
+    <meta name="robots" content="index, follow">
+    <!--meta name="keywords" content="Please overwrite this block providing keywords" /-->
+    <!--meta name="description" content="Please overwrite this block providing keywords" /-->
+{% endblock %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'FlatPage', 2];
+{% endblock %}
+
+
+{% block breadcrumb_root %}
+{% endblock %}
+
+{% block left_column %}
+    <div class="row-fluid">
+        {{ flatpage.content|markdown }}
+    </div>
+    {% block disqus %}
+        {% with flatpage.url as flatpage_url %}
+            {% set_disqus_url flatpage_url %}
+        {% endwith %}
+        {% disqus_show_comments %}
+    {% endblock %}
+{% endblock %}
+

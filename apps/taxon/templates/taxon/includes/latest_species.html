@@ -1,0 +1,23 @@
+{% load i18n taxon_tags thumbnail staticfiles cache %}
+{#% cache 172800 latest-species-block %#}
+    <div id="latest-updated">
+    {% get_latest_species as specie_list %}
+    <h4>{% trans "Latest species updated" %}</h4>
+    <h5><a href="{% url 'haystack_search' %}?models={{ taxon.get_rank_display }}">{% trans "Explore species database" %}</a></h5>
+    <ul class="orchids search-results mini">
+        {% for result in specie_list %}
+        <li>
+            <a class="block" href="{% url 'taxon.views.species_detail' result.id result.get_slug %}" title="{{ result.scientific }}">
+                {% if not result.get_main_image %}
+                <img src="{% static 'img/no-image_thumbnail.png' %}" alt="{{ result.scientific }}" width="100" height="100" title="{{ result.get_partial }}">
+                {% else %}
+                {% thumbnail result.get_main_image.image "100x100" crop="center" as im %}
+                <img src="{{ im.url }}" alt="{{ result.scientific }}" width="{{ im.width }}" height="{{ im.height }}" title="{{ result.get_partial }}">
+                {% endthumbnail %}
+                {% endif %}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    </div>
+{#% endcache %#}

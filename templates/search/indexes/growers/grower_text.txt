@@ -1,0 +1,8 @@
+{% load markup %}
+{{ object.name }}
+{{ object.home_body|safe|striptags }}
+{{ object.description|safe|markdown|striptags }}
+{{ object.tags }}
+{{ object.address }}
+{{ object.usstate }}
+{{ object.country }}

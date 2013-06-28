@@ -1,0 +1,130 @@
+{% extends "taxon/detail.html" %}
+{% load staticfiles i18n humanize markup tagging_tags cache %}
+{% load conditions_tags orcheeder_tags tips_tags %}
+{% load taxon_tags %}
+{% load thumbnail %}
+{% spaceless %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Species Detail', 2];
+    var customVar3 = ['Taxon', '{{ taxon.scientific }}', 3];
+{% endblock %}
+
+{% block breadcrumb_app %}
+    <li><span class="divider">/</span>
+    <a title="{% blocktrans %} Go to the genus list page{% endblocktrans %}" href="{% url 'haystack_search' %}?models=genus">{% trans 'Genus' %}</a>
+    </li>
+    <li><span class="divider">/</span>
+    <a title="{% blocktrans %} Go to the genus detail page{% endblocktrans %}" href="{{ taxon.get_parent.get_absolute_url }}">{{ taxon.get_parent.get_partial|capfirst }}</a>
+    </li>
+    <li><span class="divider">/</span>
+    <a title="{% blocktrans with rank=taxon.get_rank_display %} Go to the {{ rank }} detail page {% endblocktrans %}" href="{% url 'haystack_search' %}?models={{ taxon.get_rank_display }}">{{ taxon.get_rank_display|capfirst }}</a>
+    </li>
+    <li class="active"><span class="divider">/</span>{{ taxon.get_partial|capfirst }}</li>
+{% endblock %}
+
+{% block ads1 %}
+    <script type="text/javascript">
+        _gaq.push(['_setCustomVar',
+           1,             // This custom var is set to slot #1.
+           'Experiment - Species Detail Top Ad',   // The name identifying the custom variable (the experiment for us)
+           'Before Title',      // Sets the value of the custom var.
+            3             // Sets the scope to pageview-level.
+        ]);
+        <!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* species_detail_1 */
+        google_ad_slot = "2800446360";
+        google_ad_width = 728;
+        google_ad_height = 90;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+{% endblock %}
+
+{% block classification %}
+    <p>Genus:
+        <a href="{% url 'genus_detail' taxon.get_parent.id taxon.get_parent.get_slug %}" title="{{ taxon.genus_name }}"/><strong>{{ taxon.genus_name }}</strong></a>
+    </p>
+{% endblock %}
+
+{% block ads1b %}
+{% endblock %}
+
+{% block ads2 %}
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* species_detail_3 */
+        google_ad_slot = "1322721430";
+        google_ad_width = 468;
+        google_ad_height = 15;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+{% endblock %}
+
+{% block related_orchids %}
+    {#% cache 172800 related-species taxon.id %#}
+        {% orcheeder_more_like_this taxon as related_species for "taxon.species" limit 20 %}
+        {% if related_species %}
+            <div class="row-fluid" id="related-orchids">
+                <h4>{% trans 'Related orchids species' %}</h4>
+                <ul>
+                    {% for result in related_species|randomize_list:"6" %}
+                        <li>
+                            <a href="{{ result.object.get_absolute_url }}" title="{{ result.object.get_partial }}">{{ result.object.get_partial }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {#% endcache %#}
+
+{% endblock %}
+
+{% block latest_species %}
+    {% include "taxon/includes/latest_species.html" %}
+
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* species_detail_5 */
+        google_ad_slot = "5112532330";
+        google_ad_width = 336;
+        google_ad_height = 280;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+{% endblock %}
+
+{% block tag_cloud %}
+{% endblock %}
+
+{% block see_more_posts %}
+<a href="{% url 'species_more_posts' taxon.id taxon.get_slug %}">
+    <button type="button" class="btn btn-success btn-large" onclick="_gaq.push(['_trackEvent', 'Button', 'More Posts {{ taxon.scientific }}', 'click']);">
+        {% trans "See more articles for" %} {{ taxon.scientific }}
+    </button>
+</a>
+{% endblock %}
+
+{% block see_more_tips %}
+<a href="{% url 'species_more_tips' taxon.id taxon.get_slug %}" title="Tips for caring and growing {{ taxon.scientific }}">
+    <button type="button" class="btn btn-success btn-large" onclick="_gaq.push(['_trackEvent', 'Button', 'More Tips {{ taxon.scientific }}', 'click']);">See more tips</button>
+</a>
+{% endblock %}
+
+{% block read_more_tip %}
+    <p><a href="{% url 'species_more_tips' taxon.id taxon.get_slug %}" title="Tips for caring and growing {{ taxon.scientific }}">Read more</a></p>
+{% endblock %}
+
+{% block read_more_tip2 %}
+    <p><a href="{% url 'species_more_tips' taxon.id taxon.get_slug %}" title="Tips for caring and growing {{ taxon.scientific }}">Read more</a></p>
+{% endblock %}
+
+{% endspaceless %}

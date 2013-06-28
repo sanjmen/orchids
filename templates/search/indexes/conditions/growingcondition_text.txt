@@ -1,0 +1,5 @@
+{% load markup %}
+{{ object.name.scientific }}
+{{ object.condition_type }}
+{{ object.text|safe|markdown|striptags }}
+{{ object.source_description }}

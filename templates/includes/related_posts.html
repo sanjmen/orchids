@@ -1,0 +1,20 @@
+{% load cache orcheeder_tags %}
+
+{% search_related_posts_for taxon as related_post_list %}
+{#% cache 172800 taxon-related-news taxon.id %#}
+{% if related_post_list %}
+<div id="related-posts">
+    <h4>Articles, news, forum discussions and blog posts about {{ taxon.scientific }}</h4>
+    {% for related_post in related_post_list|slice:"3" %}
+    <ul>
+        <li>
+            <strong><a href="{{ related_post.get_absolute_url }}" title="{{ related_post.title }}">{{ related_post.title|default:"Untitled" }}</a></strong> ({{ related_post.date_created|date:"M d Y" }})
+        </li>
+    </ul>
+    {% endfor %}
+    {% if related_post_list|length > 3 %}
+        {% block see_more_posts %}{% endblock %}
+    {% endif %}
+</div>
+{% endif %}
+{#% endcache %#}

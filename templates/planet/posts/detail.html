@@ -1,0 +1,41 @@
+{% extends "planet/base.html" %}
+{% load i18n planet_tags %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Post Detail', 2];
+{% endblock %}
+
+{% block head_title %}{{ post.title|safe }}{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{{ post.title|safe }}" />
+    <meta name="description" content="{% get_first_paragraph post.content as description %}{{ description }}" />
+    {% with post.content|striptags|length as post_length %}
+        {% if post_length > 200 %}
+            <meta name="robots" content="index, follow" />
+        {% else %}
+            <meta name="robots" content="noindex, follow" />
+        {% endif %}
+    {% endwith %}
+    <link rel="canonical" href="http://{{ site.domain }}{{ post.get_absolute_url }}"/>
+{% endblock %}
+
+{% block breadcrumb_section %}
+    <span class="divider">/</span>
+    <li><a href="{% url 'planet.views.blogs_list' %}">Blogs</a> <span class="divider">/</span></li>
+    <li><a href="{{ post.feed.blog.get_absolute_url }}">{{ post.feed.blog.title }}</a> <span class="divider">/</span></li>
+    <li><a href="{{ post.feed.get_absolute_url }}">{{ post.feed.title }}</a> <span class="divider">/</span></li>
+{% endblock %}
+{% block breadcrumb_detail %}<li class="active">{{ post.title|safe }}</li>{% endblock %}
+
+{% block content %}
+    <div class="result row-fluid">
+        <div class="date">{{ post.date_modified|date:"M d Y" }}</div>
+        <h1>{{ post.title|striptags|safe }}</h1>
+        <div class="content">
+            {{ post.content|safe|clean_html }}
+        </div>
+        {% post_full_details post %}
+    </div>
+{% endblock %}
+

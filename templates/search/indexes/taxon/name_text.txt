@@ -1,0 +1,6 @@
+{% load markup %}
+{{ object.get_partial }}
+{{ object.description|safe|markdown|striptags }}
+{{ object.common_name }}
+{{ object.tags }}
+{% for country in object.countries.all %}{{ country.printable_name }} {% endfor %}

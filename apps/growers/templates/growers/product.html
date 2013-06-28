@@ -1,0 +1,210 @@
+{% extends "growers/base.html" %}
+{% load cache staticfiles i18n humanize markup %}
+{% load tagging_tags orcheeder_tags taxon_tags disqus_tags %}
+{% load thumbnail %}
+{% spaceless %}
+
+{% block head_title_base %}
+    {% block head_title %}
+        {% block page_title %}
+            {{ product.title|safe }} - {{ product.grower.name }}{% if product.country %} - {{ product.country }}{% endif %}
+        {% endblock %}
+    {% endblock head_title %}
+{% endblock %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Product Detail', 2];i
+{% endblock %}
+
+{% block disqus %}
+    {% with product|get_full_url as product_url %}
+        {% set_disqus_url product_url %}
+    {% endwith %}
+    {% disqus_show_comments %}
+{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{{ product.title|safe }} - FOR SALE at {{ grower.name|safe }}{% if product.country %} - {{ product.country }}{% endif %}"/>
+    <meta name="description" content="{{ product.title|safe }}{% if product.country %} from {{ product.country }}{% endif %} is for sale at {{ grower.name|safe }}"/>
+    <meta name="keywords" content="orchid, nurseries, products, orchids on sale, where to buy, {{ product.title|lower }}, {{ grower.name|safe }}, {% if product.country %}{{ product.country }}{% endif %}, for sale, orchid supplies"/>
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://{{ site.domain }}{{ product.get_absolute_url }}"/>
+{% endblock %}
+
+{% block body_class %}product{% endblock %}
+
+{% block ads_top_right %}
+{% endblock %}
+
+{% block left_column %}
+    <div class="row-fluid">
+        <div class="hero-unit" id="product-header">
+            <div class="row-fluid">
+                <div class="span9">
+                        <h1>{{ product.title }} for sale</h1>
+                        <h2>at {{ product.grower.name }} store</h2>
+                </div>
+                <div class="span3">
+                    {% thumbnail product.imagen "150x150" crop="center" as im %}
+                    <img class="" id="{{ product.id }}" src="{{ im.url }}" alt="{{ product.title }}" width="{{ im.width }}" height="{{ im.height }}">
+                    {% endthumbnail %}
+                </div>
+            </div>
+        </div>
+
+        {% block ads1 %}
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* product_detail1 */
+                google_ad_slot = "8932128782";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        {% endblock %}
+        <br/>
+        <br/>
+
+        {% block ads1b %}{% endblock %}
+
+        <table id="product-details" class="table table-bordered">
+            <tbody>
+                {% if product.description %}
+                <tr>
+                    <td>Description</td>
+                    <td>{{ product.description|markdown }}</td>
+                </tr>
+                {% endif %}
+                {% if product.size %}
+                <tr>
+                    <td>Size</td>
+                    <td>{{ product.size }}</td>
+                </tr>
+                {% endif %}
+                {% if product.mount %}
+                <tr>
+                    <td>Mount</td>
+                    <td>{{ product.mount }}</td>
+                </tr>
+                {% endif %}
+                {% if product.level %}
+                <tr>
+                    <td>Growing Level</td>
+                    <td>{{ product.growing_scale }}</td>
+                </tr>
+                {% endif %}
+                {% if product.price %}
+                <tr>
+                    <td>Price</td>
+                    <td>{{ product.price|floatformat:2 }}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td>Grower/Store</td>
+                    <td>
+                        <a class="btn btn-success" title="More about {{ product.grower.name }}" rel="follow" href="{% url 'growers.views.grower_detail' product.grower.slug %}" onclick="_gaq.push(['_trackEvent', 'Button', 'Grower-{{ product.grower.name }}-{{ product.id}}', 'click']);">
+                            Read more about {{ product.grower.name }}
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Buy</td>
+                    <td>
+                        <div class="btn-toolbar" name="toolbar">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#" onclick="_gaq.push(['_trackEvent', 'orchid-buy', '{{ product.id }}', 'dropdown']);">Buy this orchid&nbsp;<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a target="_blank" rel="nofollow" href="{{ product.url }}" onclick="_gaq.push(['_trackEvent', 'orchid-buy:{{ product.grower.name }}', '{{ product.id}}', 'click']);">in {{ product.grower.name }} store</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% block ads2 %}
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* product_detail2 */
+                google_ad_slot = "2885595184";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        {% endblock %}
+
+        {% block related_products %}
+            {% cache 172800 related-products product.id %}
+                {% orcheeder_more_like_this product as related_products for "growers.orchidproduct" limit 20 %}
+                {% if related_products %}
+                    <div class="row-fluid">
+                        <div id="related-orchids">
+                            <h4>{% trans 'Related orchids products' %}</h4>
+                            <ul class="orchids search-results thumbnails">
+                                {% for result in related_products %}
+                                <li class="span4">
+                                    <div class="thumbnail">
+                                        <a href="{% url 'product_detail' result.object.get_slug result.object.id %}" title="{{ result.object.title }}" class="thumbnail">
+                                            {% if not result.object.imagen %}
+                                            <img src="{% static 'img/no-image_thumbnail.png' %}" alt="{{ result.object.title }}" width="100" height="100" title="{{ result.object.title }}">
+                                            {% else %}
+                                            {% thumbnail result.object.imagen "100x100" crop="center" as im %}
+                                            <img src="{{ im.url }}" alt="{{ result.object.title }}" width="{{ im.width }}" height="{{ im.height }}" title="{{ result.object.title }}">
+                                            {% endthumbnail %}
+                                            {% endif %}
+                                        </a>
+                                        <div class="caption">
+                                            <a href="{% url 'product_detail' result.object.get_slug result.object.id %}" title="{{ result.object.title }}">{{ result.object.title }}</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endcache %}
+        {% endblock %}
+
+    </div>  <!-- end row-fluid -->
+{% endblock %}
+
+{% block right_column %}
+    {% include "growers/includes/products_feature.html" %}
+
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* product_detail3 */
+        google_ad_slot = "4362328385";
+        google_ad_width = 336;
+        google_ad_height = 280;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+
+    {% include "taxon/includes/latest_species.html" %}
+
+{% endblock %}
+
+{% block extra_script %}
+{% endblock %}
+
+{% block breadcrumb_app %}
+    <li><span class="divider">/</span>
+    <a title="{% blocktrans %} Go to the orchid products list page{% endblocktrans %}" href="{% url 'haystack_search' %}?models=onsale">{% trans 'Orchid Products' %}</a>
+    </li>
+    <li class="active"><span class="divider">/</span>{{ product.title|capfirst }}</li>
+{% endblock %}
+
+{% endspaceless %}

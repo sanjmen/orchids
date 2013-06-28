@@ -1,0 +1,219 @@
+{% extends "growers/base.html" %}
+{% load staticfiles i18n humanize markup %}
+{% load tagging_tags taxon_tags orcheeder_tags disqus_tags %}
+{% load thumbnail cache pagination_tags %}
+{% spaceless %}
+
+{% block head_title_base %}
+    {% block head_title %}
+        {% block page_title %}
+            {{ grower.name|safe }}
+        {% endblock %}
+    {% endblock head_title %}
+    :: orchid Grower in {{ grower.usstate.name }}, {{ grower.country.iso3 }}
+{% endblock %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Grower Detail', 2];i
+{% endblock %}
+
+{% block disqus %}
+    {% with grower|get_full_url as grower_url %}
+        {% set_disqus_url grower_url %}
+    {% endwith %}
+    {% disqus_show_comments %}
+{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="{{ grower.name|safe }}"/>
+    <meta name="description" content="See information about {{ grower.name|safe }}, orchid grower in {{ grower.usstate.name|lower }} {{ grower.country.iso3|lower }}"/>
+    <meta name="keywords" content="orchid, orchid grower, orchids {{ grower.usstate.name|lower }}, orchid for sale, where to buy orchids"/>
+    {% if request.page > 1 %}
+        <meta name="robots" content="noindex, follow">
+    {% else %}
+        <meta name="robots" content="index, follow">
+    {% endif %}
+    <link rel="canonical" href="http://{{ site.domain }}{{ grower.get_absolute_url }}"/>
+{% endblock %}
+
+{% block body_class %}grower{% endblock %}
+
+{% block breadcrumb_app %}
+{% endblock %}
+
+
+{% block left_column %}
+    <div class="row-fluid">
+
+        <div class="hero-unit">
+            <div class="row-fluid">
+                <div class="span8">
+                    <h1>{{ grower.name }}</h1>
+                    <h3> Orchid Grower in {{ grower.usstate }}, {{ grower.country.iso3 }}</h3>
+                </div>
+                <div class="span4">
+                    {% thumbnail grower.image "100x100" crop="center" as im %}
+                    <img class="" id="{{ grower.image.id }}" src="{{ im.url }}" alt="{{ grower.name }}" width="{{ im.width }}" height="{{ im.height }}">
+                    {% endthumbnail %}
+                    <button type="button" class="btn btn-success btn-large" data-toggle="modal" data-target="#myModal" onclick="_gaq.push(['_trackEvent', 'Button', 'Get Grower Address', 'click']);">Get Address</button>
+                </div>
+            </div>
+        </div>
+
+        {% block ads1 %}
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* grower1 */
+                google_ad_slot = "1337286784";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        {% endblock %}
+        <br/>
+        <br/>
+
+        {% block ads1b %}{% endblock %}
+
+        <div class="taxon-container">
+            <div class="">
+                <p>{{ grower.description|markdown }}</p>
+            </div>
+
+            {% tags_for_object grower as tag_list %}
+            {% if tag_list %}
+            <div id="tags">
+                <h4>This are some of the {{ grower.name }} genus list:</h4>
+                {% for tag in tag_list %}
+                    <a href="{% url 'haystack_search' %}?models=species&amp;q={{ tag.name }}">
+                        <h5><span class="label label-important" onclick="_gaq.push(['_trackEvent', 'Tag', '{{ tag.name }}', 'click']);">{{ tag.name|capfirst }}</span></h5>
+                    </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <br/>
+
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* growers2 */
+                google_ad_slot = "2814019987";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+
+            {% with grower.orchidproduct_set.all as related_products %}
+
+            {% if not related_products %}
+                <div id="top-genus">
+                    <h4>See more orchids</h4>
+                    {% get_top_genus as top_genus %}
+                    <ul class="search-results">
+                        {% for genus in top_genus %}
+                        <li class="span3">
+                          <a href="{% url 'genus_detail' genus.id genus.get_slug %}" title="{{ genus.scientific }}">
+                              {% if genus.get_main_image %}
+                                {% thumbnail genus.get_main_image.image "200x100" crop="center" as im %}
+                                <img src="{{ im.url }}" alt="{{ genus.scientific }}" width="{{ im.width }}" height="{{ im.height }}" title="{{ genus.scientific }}">
+                                {% endthumbnail %}
+                              {% endif %}
+                          </a>
+                          <a href="{% url 'genus_detail' genus.id genus.get_slug %}" title="{{ genus.scientific }}" rel="index,follow"/><strong>{{ genus.scientific }}</strong></a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                {% cache 172800 grower-products grower.id %}
+                    <div class="row-fluid">
+                        <div id="grower-products">
+                            <h4>Orchids for sale in {{ grower.name }} store</h4>
+                            <ul class="orchids search-results thumbnails">
+                                {% autopaginate related_products 10 %}
+                                {% for result in related_products %}
+                                <li class="span4">
+                                    <div class="thumbnail">
+                                        <a href="{{ result.get_absolute_url }}" title="{{ result.title }}" class="thumbnail">
+                                            {% if not result.imagen %}
+                                            <img src="{% static 'img/no-image_thumbnail.png' %}" alt="{{ result.title }}" width="100" height="100" title="{{ result.title }}">
+                                            {% else %}
+                                            {% thumbnail result.imagen "100x100" crop="center" as im %}
+                                            <img src="{{ im.url }}" alt="{{ result.title }}" width="{{ im.width }}" height="{{ im.height }}" title="{{ result.title }}">
+                                            {% endthumbnail %}
+                                            {% endif %}
+                                        </a>
+                                        <div class="caption">
+                                            <a href="{{ result.get_absolute_url }}" title="{{ result.title }}">{{ result.title }}</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                                {% paginate %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endcache %}
+            {% endif %}
+            {% endwith %}
+
+        </div>
+
+
+        <div id="myModal" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+
+        {% block ads2 %}{% endblock %}
+
+        {% block related_orchids %}{% endblock %}
+
+    </div>  <!-- end row-fluid -->
+{% endblock %}
+
+{% block right_column %}
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* grower3 */
+        google_ad_slot = "4290753187";
+        google_ad_width = 336;
+        google_ad_height = 280;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+
+    {% include "taxon/includes/latest_species.html" %}
+{% endblock %}
+
+{% block extra_script %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#myModal').on('shown', function() {
+                $('.modal-body').append('<p>Address: {{ grower.address }}</p>' +
+                                        '<p>Phone: {{ grower.phone }}</p>' +
+                                        '<p>Web: <a href="{{ grower.url }}?referrer=orcheeder.com">{{ grower.url }}</a></p>');
+                $('.modal-header').append('<h3 class="grower-header">{{ grower.name }}</h3>');
+                })
+            $('#myModal').on('hidden', function() {
+                $('.modal-body').empty();
+                $('.grower-header').empty();
+                })
+        });
+    </script>
+{% endblock %}
+
+{% endspaceless %}

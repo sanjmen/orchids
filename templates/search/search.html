@@ -1,0 +1,183 @@
+{% extends "search/base.html" %}
+{% load i18n pagination_tags cache orcheeder_tags %}
+
+{% block customvars %}
+    var customVar2 = ['Landing Page Type', 'Search' + , 2];
+{% endblock %}
+
+{% block head_title %}
+    {% if query != '' %}
+        {% trans "Search results for" %} {{ query }}
+    {% else %}
+        {% trans "Search" %}
+    {% endif %}
+{% endblock %}
+
+{% block body_class %}search{% endblock %}
+
+{% block metatags %}
+    <meta name="description" content="Search results page for {{ query }}">
+    <meta name="robots" content="noindex, follow">
+{% endblock %}
+
+{% block tab_id %}id="tab_search"{% endblock %}
+
+{% block search %}{% endblock %}
+
+{% block breadcrumb_app %}
+  {% if query != '' %}
+    <li><span class="divider">/</span>
+        <a title="{% trans 'Search for orchids species, genuses and blog posts and articles' %}" href="{% url 'haystack_search' %}">
+        {% trans 'Search' %}
+        </a>
+    </li>
+    <li class="active"><span class="divider">/</span>
+        <span>{% blocktrans %}Search Results for "{{ query }}"{% endblocktrans %}</span>
+    </li>
+  {% else %}
+    <li class="active"><span class="divider">/</span>
+        <span>{% trans 'Search' %}</span>
+    </li>
+  {% endif %}
+{% endblock %}
+
+{% block left_column %}
+    <div class="row-fluid">
+
+        {% block results_message %}
+            {% if not paginator.count %}
+                <h3>{% trans 'No search results found for' %} <em>{{ query }}</em></h3>
+                <iframe src="http://rcm.amazon.com/e/cm?t=orcheeder-20&o=1&p=48&l=st1&mode=garden&search=orchids,{{ query }}, flowers&fc1=000000&lt1=_blank&lc1=3366FF&bg1=FFFFFF&f=ifr" marginwidth="0" marginheight="0" width="728" height="90" border="0" frameborder="0" style="border:none;" scrolling="no"></iframe>
+            {% endif %}
+        {% endblock %}
+
+        <div class="hero-unit">
+            <form class="form-search" method="get" action=".">
+                <ul>
+                    {{ form.as_ul }}
+                    <li><input class="btn btn-success" type="submit" value="Search"></li>
+                </ul>
+            </form>
+        </div>
+
+        {% block ads1 %}
+            <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-0221662690945981";
+                /* search1 */
+                google_ad_slot = "3604265582";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+            </script>
+            <script type="text/javascript"
+                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>
+        {% endblock %}
+
+        <div class="results-container">
+
+            {% if paginator.count %}
+                <h3>Results</h3>
+                <div class="search-results thumbnails">
+                {% for result in page.object_list %}
+
+                    {% if forloop.counter|divisibleby:"6" %}
+                        <script type="text/javascript"><!--
+                            google_ad_client = "ca-pub-0221662690945981";
+                            /* search3 */
+                            google_ad_slot = "7894864389";
+                            google_ad_width = 728;
+                            google_ad_height = 15;
+                            //-->
+                        </script>
+                        <script type="text/javascript"
+                            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                        </script>
+                    {% endif %}
+
+                    {% include result|template_fragment %}
+                {% empty %}
+                    <p>No results found.</p>
+                {% endfor %}
+                </div>
+
+                <div class="pagination">
+                  <ul>
+                    {% block previouslink %}
+                      {% if page.has_previous %}
+                        <li class="prev"><a href="?page{{ page_suffix }}={{ page.previous_page_number }}&amp;q={{ query|urlencode }}&amp;models={{ form.cleaned_data.models }}">&laquo; {% trans "Previous" %}</a></li>
+                      {% else %}
+                         <li class="prev disabled"><a>&laquo; {% trans "Previous" %}</a></li>
+                      {% endif %}
+                    {% endblock previouslink %}
+                    {% block pagelinks %}
+                      {% if display_page_links %}
+                        {% for page in pages %}
+                          {% if page %}
+                            {% ifequal page page.number %}
+                              <li class="active"><a href="#">{{ page }}</a></li>
+                            {% else %}
+                              <li><a href="?page{{ page_suffix }}={{ page }}&amp;q={{ query|urlencode }}&amp;models={{ form.cleaned_data.models }}">{{ page }}</a></li>
+                            {% endifequal %}
+                          {% else %}
+                            ...
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    {% endblock pagelinks %}
+                    {% block nextlink %}
+                      {% if page.has_next %}
+                        <li class="next"><a href="?page{{ page_suffix }}={{ page.next_page_number }}&amp;q={{ query|urlencode }}&amp;models={{ form.cleaned_data.models }}">{% trans "Next" %} &raquo;</a></li>
+                      {% else %}
+                         <li class="next disabled"><a>{% trans "Next" %} &raquo;</a></li>
+                      {% endif %}
+                    {% endblock nextlink %}
+                  </ul>
+                </div>
+            {% else %}
+                {# Show some example queries to run, maybe query syntax, something else? #}
+            {% endif %}
+        </div>
+
+        {% if paginator.count %}
+        <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-0221662690945981";
+            /* search2 */
+            google_ad_slot = "6557731985";
+            google_ad_width = 728;
+            google_ad_height = 90;
+            //-->
+        </script>
+        <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+        {% endif %}
+
+        <div class="span2 pull-right">
+            <a href="#top" title="{% trans 'Go to the top of the search results list' %}">
+                {% trans 'back to top' %}
+            </a>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extra_right %}
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-0221662690945981";
+        /* search4 */
+        google_ad_slot = "1288097585";
+        google_ad_width = 336;
+        google_ad_height = 280;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+{% endblock %}
+
+{% block latest_species %}
+    {% include "includes/latest_species.html" %}
+{% endblock %}
+
+

@@ -1,0 +1,8 @@
+<li>
+    <h3>
+        <a href="{{ result.object.get_absolute_url }}" title="{{ result.object.title }}">
+            {{ result.object.title|striptags|truncatewords_html:"12" }}
+        </a>
+    </h3>
+    <p>{{ result.object.content|striptags|safe|truncatewords_html:"50" }}
+</li>

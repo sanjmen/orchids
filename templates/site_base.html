@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block extra_head_base %}
+    {{ block.super }}
+    {% block metatags %}{% endblock %}
+    {% block extra_head %}{% endblock %}
+{% endblock %}
+
+{% comment %}
+{% block search %}
+    <div class="nav pull-left" id="everywhere-search-form">
+        {# see orcheeder.context_processors.search_form #}
+        <form method="GET" action="{% url 'haystack_search' %}">
+          {{ search_form }}
+          <button type="submit" class="btn btn-success">{% trans 'search' %}
+        </form>
+    </div>
+{% endblock %}
+{% endcomment %}
+
+{% block breadcrumb_root %}
+<ul class="breadcrumb">
+    <li><a title="{% trans 'Go to the homepage' %}" href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+    {% block breadcrumb_app %}{% endblock %}
+</ul>
+{% endblock %}
+
